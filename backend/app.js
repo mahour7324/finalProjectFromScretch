@@ -1,9 +1,9 @@
-const express = require('express')
-const app = express()
-app.use(express.json())
+const express = require('express')//Imports the Express framework, allowing you to create an Express application.
+const app = express()//Creates an instance of the Express application.
+app.use(express.json())//Adds a middleware which parses incoming requests with JSON payloads. It allows you to access the request body as JSON.
 
 //routes
-const products = require("./routes/productRouter")
+const products = require("./routes/productRouter")//Mounts the products router on the "/api/v1" path.
 
 app.use("/api",products)
 
