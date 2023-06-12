@@ -3,9 +3,10 @@ const app = express()//Creates an instance of the Express application.
 app.use(express.json())//Adds a middleware which parses incoming requests with JSON payloads. It allows you to access the request body as JSON.
 
 //routes
-const products = require("./routes/productRouter")//Mounts the products router on the "/api/v1" path.
+const products = require("./routes/productRouter")//importing productrouter
 
-app.use("/api",products)
+app.use("/api/v1",products)//Mounts the products router on the "/api/v1" path.
+
 
 
 
