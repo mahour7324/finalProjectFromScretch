@@ -1,10 +1,10 @@
-const app = require("./app")
-const dotenv = require('dotenv')
-const connectDatabase = require("./config/database")
+const app = require("./app") //importing express app from app.js
+const dotenv = require('dotenv') //importing dotenv module
+const connectDatabase = require("./config/database") // imorting database connection file
 //config:
-dotenv.config({path:"./backend/config/config.env"});
+dotenv.config({path:"./backend/config/config.env"}); //config dotenv file from where to get all env values
 
-connectDatabase();
+connectDatabase(); //connecting to database
 
 
 
