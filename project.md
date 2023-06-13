@@ -1,0 +1,6 @@
+# project steps 
+*1. first we made all our basic 5 apis getProducts getProductDetails deleteProduct updateProduct createProduct*
+
+*2. now we are making class for error handling {1. for status codes 2. for async function 3.(unhandledRejection, unhandledException, mongodbIdError)}*
+
+*3. now making serach filter pagination*

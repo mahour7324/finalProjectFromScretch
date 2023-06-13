@@ -8,9 +8,9 @@ const connectDatabase = ()=>{
     .connect(process.env.DB_URI, mongoOptions)
     .then((data) => {
         console.log(`mongodb connected with ${data.connection.host}` )})
-        .catch((err)=>{
-            console.log(`can't connect with database becuase of ${err}`)
-        });
+        // .catch((err)=>{
+        //     console.log(`can't connect with database becuase of ${err}`)
+        // });
         
     }
 module.exports = connectDatabase;

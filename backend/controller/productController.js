@@ -1,29 +1,31 @@
 const Product = require('./../models/productModel')
+const ErrorHandler = require("./../utils/errorhandler")
+const catchAsyncError = require("./../middleware/catchAsyncErrors")
 
 // createProduct controller --Admin----------------|
-exports.createProduct = async (req,res,next) =>{
+exports.createProduct = catchAsyncError(async (req,res,next) =>{
    const product = await Product.create(req.body );
    res.status(201).json({
       success:true, 
       product
    })
-}
+})
 
-
+ 
 
 // Get all Products---------------------------------------|
-exports.getAllProducts = async (req,res)=>{
+exports.getAllProducts = catchAsyncError (async (req,res)=>{
    const products = await Product.find();
    res.status(200).json({
       success:true,
       products
    })
-}
+})
 
 // Update the Product--Admin----------------------------------------------------------------------------------------------|
-exports.updateProduct = async (req, res, next) => {
+exports.updateProduct = catchAsyncError(async (req, res, next) => {
    const oldProduct_id = req.params.id
-   let product_id = oldProduct_id.slice(0, -1);// because 2 extras are coming and creating problem like: 6484ba1951f776c1b83a0fe7\n
+   let product_id = oldProduct_id.slice(0, -1);// because 2 extras character are coming and creating problem, like: 6484ba1951f776c1b83a0fe7\n
    let product = await Product.findById(product_id);
    if (!product) {
       res.status(500).json({
@@ -42,14 +44,14 @@ exports.updateProduct = async (req, res, next) => {
       success: true,
       product,
    });
-};
+})
 
 
 
 //deleting a Product--------------------------Admin--------------------------------|
-exports.deleteProduct = async (req,res,next)=>{
-   try
-   {const oldProduct_id = req.params.id
+exports.deleteProduct = catchAsyncError(async (req,res,next)=>{
+  
+   const oldProduct_id = req.params.id
    let product_id = oldProduct_id.slice(0, -1);
    let product = await Product.findById(product_id)
    if(!product){
@@ -65,47 +67,22 @@ exports.deleteProduct = async (req,res,next)=>{
       success:true,
       message:"Product is successfully deleted"
    })
-}
-   catch (error) {
-      // console.error(error);
+})
 
-      res.status(500).json({
-         success: false,
-         message: "Server Error such a Product doesn't Exist"
-      });
-   }
-}
    
-//getProductDetails----------------------------------------------------not working------------------------------------------|
-exports.getProductDetails = async (req,res,next)=>{
-   try
-   {const oldProduct_id = req.params.id
+   
+//getProductDetails------------------------------------------------------admin------------------------------------------|
+exports.getProductDetails = catchAsyncError( async (req,res,next)=>{
+   
+   const oldProduct_id = req.params.id
    let product_id = oldProduct_id.slice(0, -1);
    let product = await Product.findById(product_id)
    if(!product){
-      res.status(500).json({
-         success:false,
-         message: "Product not found",
-      })
+      return next(new ErrorHandler("Product not found",404));
    }
    res.status(200).json({
       product
    })
+}
+)
    
-   // await product.deleteOne();
-   // res.status(200).json({
-   //    success:true,
-   //    message:"Product is successfully deleted"
-   // })
-}
-   catch (error) {
-      // console.error(error);
-
-      res.status(500).json({
-         success: false,
-         message: "Server Error such a Product doesn't Exist"
-      });
-   }
-}
-
-//getProductDetails----------------------------------------------------------------------------------------------|
