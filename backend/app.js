@@ -5,9 +5,12 @@ app.use(express.json())//Adds a middleware which parses incoming requests with J
 
 //routes
 const products = require("./routes/productRouter")//importing productrouter
+const users = require("./routes/userRouter")
+
+
 
 app.use("/api/v1",products)//Mounts the products router on the "/api/v1" path.
-
+app.use("/api/v1",users)
 // Middleware for err
 app.use(errorMiddleware)
 

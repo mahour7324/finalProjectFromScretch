@@ -11,8 +11,14 @@
   "author": "shivam mahour",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
-    "mongoose": "^7.2.3"
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.2.3",
+    "nodemailer": "^6.9.3",
+    "validator": "^13.9.0"
   }
 }
