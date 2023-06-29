@@ -1,8 +1,18 @@
 const express = require('express')//Imports the Express framework, allowing you to create an Express application.
 const app = express()//Creates an instance of the Express application.
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+// const fileUpload = require("express-fileupload");
+const path = require("path");
 const  errorMiddleware = require("./middleware/error")
-app.use(express.json())//Adds a middleware which parses incoming requests with JSON payloads. It allows you to access the request body as JSON.
 
+
+app.use(express.json())//Adds a middleware which parses incoming requests with JSON payloads. It allows you to access the request body as JSON.
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+//------------------------------------------------------------------------------
 //routes
 const products = require("./routes/productRouter")//importing productrouter
 const users = require("./routes/userRouter")
