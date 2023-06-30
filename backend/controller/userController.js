@@ -121,7 +121,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 const email = "shivamproject89@gmail.com"
   const user = await User.findOne({
     resetPasswordToken: resetPasswordToken,
-    // resetPasswordExpire: { $gt: Date.now() },
+    resetPasswordExpire: { $gt: Date.now() },
     
   });
   
