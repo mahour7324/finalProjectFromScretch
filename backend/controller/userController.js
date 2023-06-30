@@ -4,8 +4,8 @@ const User = require("../models/userModel");
 const sendEmail = require("../utils/sendEmail");
 const sendToken = require("../utils/jwtToken");
 
-// const crypto = require("crypto");
-// const cloudinary = require("cloudinary");
+const crypto = require("crypto");
+const cloudinary = require("cloudinary");
 const {comparePassword} =  require("../models/userModel")
 // console.log(User)
 
@@ -78,10 +78,11 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   }
 
   // Get ResetPassword Token
+  
+  
   const resetToken = user.getResetPasswordToken();
-
+  console.log("resetToken: ",resetToken)
   await user.save({ validateBeforeSave: false });
-
   const resetPasswordUrl = `${req.protocol}://${req.get(
     "host"
   )}/password/reset/${resetToken}`;
@@ -108,3 +109,44 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(error.message, 500));
   }
 });
+// -----------------------------------------------------------------------------------------------------------------------------------------------------|
+
+
+// reset Password--------------------------------------------------------------------------------------------------------------------------------------|
+exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
+  // creating token hash
+  let resetPasswordToken = req.params.token
+  resetPasswordToken = resetPasswordToken.replace(/^\s+|\s+$/g, "");
+//  console.log(resetPasswordToken)
+const email = "shivamproject89@gmail.com"
+  const user = await User.findOne({
+    resetPasswordToken: resetPasswordToken,
+    // resetPasswordExpire: { $gt: Date.now() },
+    
+  });
+  
+
+  if (!user) {
+    return next(
+      new ErrorHandler(
+        "Reset Password Token is invalid or has been expired",
+        400
+      )
+    );
+  }
+
+  if (req.body.password !== req.body.confirmPassword) {
+    return next(new ErrorHandler("Password does not password", 400));
+  }
+
+  user.password = req.body.password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+
+  await user.save();
+  
+
+  sendToken(user, 200, res);
+});
+// -----------------------------------------------------------------------------------------------------------------------------------------------------|
+
