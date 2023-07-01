@@ -150,3 +150,37 @@ const email = "shivamproject89@gmail.com"
 });
 // -----------------------------------------------------------------------------------------------------------------------------------------------------|
 
+
+// Get User Detail--------------------------------------------------------------------------------------------------------------------------------------|
+exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+// -----------------------------------------------------------------------------------------------------------------------------------------------------|
+
+
+// update User password---------------------------------------------------------------------------------------------------------------------------------|
+exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select("+password");
+
+  const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+
+  if (!isPasswordMatched) {
+    return next(new ErrorHandler("Old password is incorrect", 400));
+  }
+
+  if (req.body.newPassword !== req.body.confirmPassword) {
+    return next(new ErrorHandler("password does not match", 400));
+  }
+
+  user.password = req.body.newPassword;
+
+  await user.save();
+
+  sendToken(user, 200, res);
+});
+// -----------------------------------------------------------------------------------------------------------------------------------------------------|
