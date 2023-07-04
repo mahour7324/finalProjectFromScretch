@@ -2,15 +2,19 @@ const express = require('express')//Imports the Express framework, allowing you 
 const app = express()//Creates an instance of the Express application.
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-// const fileUpload = require("express-fileupload");
 const path = require("path");
 const  errorMiddleware = require("./middleware/error")
+const fileUpload = require("express-fileupload");
 
+// Config
+// if (process.env.NODE_ENV !== "PRODUCTION") {
+//     require("dotenv").config({ path: "backend/config/config.env" });
+//   }
 
 app.use(express.json())//Adds a middleware which parses incoming requests with JSON payloads. It allows you to access the request body as JSON.
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(fileUpload());
 
 //------------------------------------------------------------------------------
 //routes

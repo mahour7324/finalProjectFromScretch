@@ -4,15 +4,19 @@ const User = require("../models/userModel");
 const sendEmail = require("../utils/sendEmail");
 const sendToken = require("../utils/jwtToken");
 
+
+
+
 const crypto = require("crypto");
-const cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary").v2;
 const {comparePassword} =  require("../models/userModel")
-// console.log(User)
+
 
 // Register a user--------------------------------------------------------------------------------------------------------------------------------------|
 exports.registerUser = catchAsyncErrors(async (req, res) => {
   const {name,email,password} = req.body;
-     
+  
+    
 
   const user = await User.create({
     name,
@@ -23,6 +27,9 @@ exports.registerUser = catchAsyncErrors(async (req, res) => {
     //   url: myCloud.secure_url,
     // },
     });
+    
+    
+    
     sendToken(user,201,res)
   });
 // -----------------------------------------------------------------------------------------------------------------------------------------------------|
