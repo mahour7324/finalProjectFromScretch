@@ -3,21 +3,27 @@ const catchAsyncErrors = require("./../middleware/catchAsyncErrors");
 const User = require("../models/userModel");
 const sendEmail = require("../utils/sendEmail");
 const sendToken = require("../utils/jwtToken");
-
-
+const path = require("path")
 
 
 const crypto = require("crypto");
 const cloudinary = require("cloudinary").v2;
-const {comparePassword} =  require("../models/userModel")
+const {comparePassword} =  require("../models/userModel");
+// const localUpload = require("../middleware/tempstore");
+
+
 
 
 // Register a user--------------------------------------------------------------------------------------------------------------------------------------|
 exports.registerUser = catchAsyncErrors(async (req, res) => {
-  const {name,email,password} = req.body;
+  // const myCloud = await cloudinary.uploader.upload(req.files.avatar, {
+  //   folder: "avatars",
+  //   width: 150,
+  //   crop: "scale",
+  // });
   
-    
-
+  
+  const {name,email,password} = req.body;
   const user = await User.create({
     name,
     email, 
@@ -92,7 +98,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
   const resetPasswordUrl = `${req.protocol}://${req.get(
     "host"
-  )}/password/reset/${resetToken}`;
+  )}/api/v1/password/reset/${resetToken}`;
 
   const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
 
