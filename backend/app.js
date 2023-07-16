@@ -25,13 +25,13 @@ app.use(fileUpload({
 const products = require("./routes/productRouter")//importing productrouter
 const users = require("./routes/userRouter")
 const order = require("./routes/orderRouter")
-const payment = require("./controller/paymentController")
+const payment = require("./routes/paymentRouter")
 
 
 app.use("/api/v1",products)//Mounts the products router on the "/api/v1" path.
 app.use("/api/v1",users)
 app.use("/api/v1", order);
-// app.use("/api/v1", payment);
+app.use("/api/v1", payment);
 
 // Middleware for err
 app.use(errorMiddleware)
